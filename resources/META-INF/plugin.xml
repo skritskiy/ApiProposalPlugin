@@ -1,0 +1,41 @@
+<idea-plugin>
+    <id>com.skritskiy.api.proposals</id>
+    <name>API Proposal Support</name>
+    <version>0.2</version>
+    <vendor email="sergey.krickiy@gmail.com">Sergey Kritskiy</vendor>
+
+    <depends>com.intellij.modules.lang</depends>
+
+    <description><![CDATA[
+      Api Proposals support.
+
+    ]]></description>
+
+    <change-notes><![CDATA[
+
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="173.0"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="com.skritskiy.api.proposals.file.ProposalFileFactory"/>
+        <lang.parserDefinition language="Proposal" implementationClass="com.skritskiy.api.proposals.ProposalParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Proposal" implementationClass="com.skritskiy.api.proposals.highlight.ProposalSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.skritskiy.api.proposals.highlight.ProposalColorSettingsPage"/>
+        <annotator language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.ProposalAnnotator"/>
+        <completion.contributor language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.ProposalCompletionContributor"/>
+        <psi.referenceContributor implementation="com.skritskiy.api.proposals.utils.reference.ProposalReferenceContributor"/>
+        <lang.findUsagesProvider language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.ProposalFindUsagesProvider"/>
+        <gotoSymbolContributor implementation="com.skritskiy.api.proposals.utils.ProposalGoToSymbolContributor"/>
+        <lang.formatter language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.ProposalFormattingModelBuilder"/>
+        <usageTypeProvider implementation="com.skritskiy.api.proposals.utils.ProposalUsageTypeProvider"/>
+        <customUsageSearcher implementation="com.skritskiy.api.proposals.utils.ProposalCustomUsageSearcher"/>
+        <lang.commenter language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.ProposalCommenter"/>
+        <lang.psiStructureViewFactory language="Proposal" implementationClass="com.skritskiy.api.proposals.utils.structureview.ProposalStructureViewFactory"/>
+    </extensions>
+
+    <actions>
+    </actions>
+
+</idea-plugin>

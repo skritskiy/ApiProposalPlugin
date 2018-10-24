@@ -1,0 +1,62 @@
+{
+    parserClass="com.skritskiy.api.proposals.parser.ProposalParser"
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Proposal"
+    psiImplClassSuffix="Impl"
+    psiPackage="com.skritskiy.api.proposals.psi"
+    psiImplPackage="com.skritskiy.api.proposals.psi.impl"
+
+    elementTypeHolderClass="com.skritskiy.api.proposals.psi.ProposalTypes"
+    elementTypeClass="com.skritskiy.api.proposals.psi.ProposalElementType"
+    tokenTypeClass="com.skritskiy.api.proposals.psi.ProposalTokenType"
+
+    psiImplUtilClass="com.skritskiy.api.proposals.utils.ProposalPsiUtil"
+}
+
+proposalFile ::= item_*
+
+private item_ ::= (model | endpoint | anyword | COMMENT)
+
+model ::= (MODEL_KW COMMENT* mn COMMENT* mi? COMMENT* OB COMMENT* (modeldef+ | enumdef+)? CB) | mn
+{
+    methods=[getName getNameIdentifier setName getPresentation getParentModel getProperties]
+    mixin="com.skritskiy.api.proposals.psi.ProposalNamedElementImpl"
+    implements="com.skritskiy.api.proposals.psi.ProposalNamedElement"
+}
+
+mi ::= (COLON mn)
+
+mn ::= (MODEL_NAME (OQ mn CQ)?)
+{
+    methods=[getName getNameIdentifier setName]
+    mixin="com.skritskiy.api.proposals.psi.ProposalNamedElementImpl"
+    implements="com.skritskiy.api.proposals.psi.ProposalNamedElement"
+}
+
+modeldef ::= (COMMENT* MODEL_PROPERTY_KEY COMMENT* COLON COMMENT* model COMMENT*)
+{
+    methods=[getPresentation]
+}
+
+enumdef ::= COMMENT* ENUMVAL COMMENT*
+{
+    methods=[getPresentation]
+}
+
+anyword ::= (UKW | UM | UREQKW | URESPKW | UPARKW)
+
+endpoint ::= (METHOD_TYPE COMMENT* PATH_VALUE COMMENT* OB COMMENT* endpointdef COMMENT* CB)
+{
+    methods=[getName getNameIdentifier getPresentation getModels]
+}
+
+endpointdef ::= (
+                 request?
+                 response?
+                 getparams?
+                )
+
+request ::= ((REQUEST_KW | anyword) COMMENT* COLON COMMENT* model COMMENT*)
+response ::= (COMMENT* (RESPONSE_KW | anyword) COMMENT* COLON COMMENT* model COMMENT*)
+getparams ::= ((GET_PARAMS_KW | anyword) COMMENT* OB COMMENT* modeldef* COMMENT* CB)
