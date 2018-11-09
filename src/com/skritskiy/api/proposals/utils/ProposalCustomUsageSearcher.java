@@ -27,34 +27,33 @@ public class ProposalCustomUsageSearcher extends CustomUsageSearcher {
 
     @Override
     public void processElementUsages(@NotNull PsiElement element, @NotNull Processor<Usage> processor, @NotNull FindUsagesOptions options) {
-        AccessToken accessToken = applicationEx.acquireReadActionLock();
-        Project project = element.getContainingFile().getProject();
-        if(!(element instanceof ProposalModel)){
-            return;
-        }
-
-        ProposalModel parent = ((ProposalModel) element);
-
-        List<ProposalModel> allModels = ProposalUtil.findModels(project);
-        List<ProposalModel> targetModels = new ArrayList<>();
-
-        for (ProposalModel model : allModels) {
-            if(ProposalUtil.getHierarchy(model).contains(parent)){
-                targetModels.add(model);
+        applicationEx.tryRunReadAction(() -> {
+            Project project = element.getContainingFile().getProject();
+            if(!(element instanceof ProposalModel)){
+                return;
             }
-        }
 
-        List<ProposalEndpoint> endpoints = ProposalUtil.findEndpoints(element.getProject());
-        for (ProposalEndpoint endpoint : endpoints) {
-            List<ProposalModel> models = endpoint.getModels();
-            for (ProposalModel model : models) {
-                if(targetModels.stream().anyMatch(x->x.getNameIdentifier()!=null && x.getNameIdentifier().equals(model.getNameIdentifier()))){
-                    UsageInfo usageInfo = new UsageInfo(model);
-                    processor.process(new UsageInfo2UsageAdapter(usageInfo));
+            ProposalModel parent = ((ProposalModel) element);
+
+            List<ProposalModel> allModels = ProposalUtil.findModels(project);
+            List<ProposalModel> targetModels = new ArrayList<>();
+
+            for (ProposalModel model : allModels) {
+                if(ProposalUtil.getHierarchy(model).contains(parent)){
+                    targetModels.add(model);
                 }
             }
-        }
 
-        accessToken.finish();
+            List<ProposalEndpoint> endpoints = ProposalUtil.findEndpoints(element.getProject());
+            for (ProposalEndpoint endpoint : endpoints) {
+                List<ProposalModel> models = endpoint.getModels();
+                for (ProposalModel model : models) {
+                    if(targetModels.stream().anyMatch(x->x.getNameIdentifier()!=null && x.getNameIdentifier().equals(model.getNameIdentifier()))){
+                        UsageInfo usageInfo = new UsageInfo(model);
+                        processor.process(new UsageInfo2UsageAdapter(usageInfo));
+                    }
+                }
+            }
+        });
     }
 }
