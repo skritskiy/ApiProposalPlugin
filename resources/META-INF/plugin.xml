@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.skritskiy.api.proposals</id>
     <name>API Proposal Support</name>
-    <version>0.2</version>
+    <version>0.3</version>
     <vendor email="sergey.krickiy@gmail.com">Sergey Kritskiy</vendor>
 
     <depends>com.intellij.modules.lang</depends>
