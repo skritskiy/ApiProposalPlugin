@@ -1,9 +1,9 @@
-####Basic information
+#### Basic information
 Plugin supports two types of definitions: definition of Models and definition of Endpoints.
 
 Definition of models can be either a definition of Enum or a definition of a full-sized model.
 
-###Structure of an Enum
+### Structure of an Enum
 
 ```
 enum <ENUM_NAME> {
@@ -14,11 +14,11 @@ enum <ENUM_NAME> {
 }
 ```
 
-####Detailed description of an enum parts
+#### Detailed description of an enum parts
 * *ENUM_NAME*: name of the enum.
 * *ENUM_VALUE_N*: A possible value of an enum.
 
-###Structure of a Model
+### Structure of a Model
 
 ```
 model <MODEL_NAME> : <PARENT_MODEL_NAME>{
@@ -29,13 +29,13 @@ model <MODEL_NAME> : <PARENT_MODEL_NAME>{
 }
 ```
 
-####Detailed description of a model parts:
+#### Detailed description of a model parts:
 * MODEL_NAME: name of the model.
 * *PROPERTY_N_NAME*: name of the property that this model contains.
 * *PROPERTY_N_MODEL_NAME*: name of the model of the corresponding property that this model contains.
 * *PARENT_MODEL_NAME*: name of the parent model (standart inheritance).
 
-####Generic arguments
+#### Generic arguments
 Models can have generic arguments, so the following model is correct:
 
 ```
@@ -48,7 +48,7 @@ model Test {
 
 
 
-###Definition of an Endpoint
+### Definition of an Endpoint
 
 ```
 <METHOD> <PATH> {
@@ -63,7 +63,7 @@ model Test {
 }
 ```
 
-####Detailed description of an endpoint parts:
+#### Detailed description of an endpoint parts:
 * METHOD : REST method (can be one of [GET, PUT, POST, DELETE, OPTION]).
 * PATH: endpoint path as it is declared in API. Example: `/accounts/{accountId}/orders/books/notes`
 * REQUEST_MODEL_NAME: name of the model that is accepted by this endpoint as body.
@@ -73,7 +73,7 @@ model Test {
 
 *request, response and params and their corresponding parts are optional blocks.*
 
-####Predefined models
+#### Predefined models
 There are some predefined models, which are included in plugin definition:
 * Integer
 * String
@@ -93,12 +93,12 @@ There are some predefined models, which are included in plugin definition:
 * File
 
 
-####Comments
+#### Comments
 
 Comments are supported in both files in any place. syntax: /\*COMMENT*/
 
 
-####Main functions of a plugin itself:
+#### Main functions of a plugin itself:
 
 * models and endpoints navigation via ‘go to symbol’
 * ‘go to definition’ on models
